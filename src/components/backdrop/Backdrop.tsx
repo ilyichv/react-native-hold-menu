@@ -13,7 +13,7 @@ import {
 } from 'react-native-gesture-handler';
 
 // Components
-import { BlurView } from 'expo-blur';
+import { BlurTint, BlurView } from 'expo-blur';
 
 // Utils
 import { styles } from './styles';
@@ -40,7 +40,15 @@ type Context = {
   };
 };
 
-const BackdropComponent = () => {
+type BackdropProps = {
+  tint?: BlurTint;
+  intensity?: number;
+};
+
+const BackdropComponent = ({
+  tint = 'default',
+  intensity = 100,
+}: BackdropProps = {}) => {
   const { state, theme } = useInternal();
 
   const tapGestureEvent = useAnimatedGestureHandler<
@@ -116,8 +124,8 @@ const BackdropComponent = () => {
     <TapGestureHandler onHandlerStateChange={tapGestureEvent}>
       <Animated.View style={[styles.container, animatedContainerStyle]}>
         <AnimatedBlurView
-          // @ts-ignore
-          tint="default"
+          tint={tint}
+          intensity={intensity}
           animatedProps={animatedContainerProps}
           style={[styles.container]}
         >
